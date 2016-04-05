@@ -1,7 +1,7 @@
-*** Plymouth Campaign Pursued - Scenario 2: Reboot
+*** Plymouth Campaign Pursued - Scenario 2: On the Run
 
-A new Plymouth Land Rush into Evacuation Campaign Scenario for Outpost 2 programmed by Vagabond in Mar of 2016. The
-scenario is compatible with Windows and WINE, although I only test scenarios on Windows before releasing.
+A new Plymouth Land Rush into Evacuation Campaign Scenario for Outpost 2 programmed by Vagabond in Apr of 2016. The
+scenario is compatible with Windows and WINE, although I only test scenarios on Windows before releasing. 
 
 *** Install Directions
 
@@ -16,7 +16,7 @@ scenario is compatible with Windows and WINE, although I only test scenarios on 
 
 *** Source Code
 
-Scenario 2: Reboot was built using C++ in Visual Studio 2015 using the Visual Studio 2015 Build Tools. 
+Scenario 2: On the Run was built using C++ in Visual Studio 2015 using the Visual Studio 2015 Build Tools. 
 C++11 and the C++ Standard Library are both used. If you want to load the scenario into a different IDE, 
 a C++11 compliant IDE is required. Your IDE will also need support for the windows API and the Outpost 2 SDK ver 2.1.
 
@@ -27,6 +27,11 @@ enable them.
 If you need help troubleshooting the compiled scenario or the source code, use the OutpostUniverse forums.
 
 ** Bugs
+
+ * Minor: You do not have to actually load the vehicles in into a garage to patch them. The game will patch
+   the vehicles when they roll over the garage docking port. I could not find a way through the SDK to 
+   detect which specific vehicles were loaded into a garage bay. You should still load each vehicle into the
+   garage to simulate game intent, but nothing will stop you from shortcutting here :).
 
  * Minor: The starting RoboMiner is considered patched from the communication virus at scenario start.
    There is a bug in the SDK where if a roboMiner builds a common ore mine, calling the function
