@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by StartingOver.rc
+// Microsoft Visual C++ generated include file.
+// Used by OnTheRun.rc
 //
 #define IDR_MISSIONTEXT                 102
 #define IDB_PIC                         104

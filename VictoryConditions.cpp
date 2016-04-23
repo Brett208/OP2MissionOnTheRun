@@ -2,8 +2,6 @@
 
 namespace VictoryConditions
 {
-	//TODO: Test operational trigger on garage...
-
 	UnitHelper::VehicleCounter vehicleCounter;
 
 	MAP_RECT evacuateArea(LOCATION(1 + X_, 1 + Y_), LOCATION(20 + X_, 20 + Y_));

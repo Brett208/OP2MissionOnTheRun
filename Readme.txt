@@ -5,8 +5,6 @@ scenario is compatible with Windows and WINE, although I only test scenarios on 
 
 *** Install Directions
 
- * Ensure Microsoft Visual C++ 2015 Redistributable (x86) is installed. It should be about a 20MB download 
-   and can be found at: https://www.microsoft.com/en-us/download/details.aspx?id=48145.
  * Place the .map, .dll, and research tree (other .txt file) in your root Outpost 2 install directory. 
    Some scenarios share maps (.map) and research trees (.txt). You should not need to install over already 
    downloaded versions of maps and tech trees unless the map or tech tree is being patched for all scenarios

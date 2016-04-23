@@ -37,11 +37,12 @@ void initializeStartingUnits()
 	TethysGame::CreateUnit(building, map_id::mapCommandCenter, LOCATION(111 + X_, 64 + Y_), Player0, map_id::mapNone, 0);
 	TethysGame::CreateUnit(building, map_id::mapGarage, LOCATION(111 + X_, 67 + Y_), Player0, map_id::mapNone, 0);*/
 
-	vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(117 + X_, 63 + Y_), UnitDirection::South, 2,
-		std::vector<map_id> { map_id::mapSpider, map_id::mapSpider, map_id::mapScout });
+	//Note: Spiders cannot be loaded into a garage.
+	//vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(117 + X_, 63 + Y_), UnitDirection::South, 2,
+	//	std::vector<map_id> { map_id::mapSpider, map_id::mapSpider, map_id::mapScout });
 
-	vehicleBuilderAI.MoveRelativeAmount(units, LOCATION(-3, 0));
-	units.clear();
+	//vehicleBuilderAI.MoveRelativeAmount(units, LOCATION(-3, 0));
+	//units.clear();
 
 	vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(119 + X_, 63 + Y_), UnitDirection::South, 2, map_id::mapLynx,
 		std::vector<map_id> { map_id::mapMicrowave, map_id::mapEMP, map_id::mapStickyfoam, map_id::mapEMP, map_id::mapESG, map_id::mapESG });
