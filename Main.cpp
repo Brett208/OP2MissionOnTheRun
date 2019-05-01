@@ -105,8 +105,7 @@ void initializeStartingUnits()
 	while (playerVehicleEnum.GetNext(unit))
 	{
 		//NOTE: Unit.IsLive() does not display a RoboMiner as dead if it builds a COMMON ore mine...
-		if (unit.GetType() == map_id::mapRoboMiner)
-		{
+		if (unit.GetType() == map_id::mapRoboMiner) {
 			continue;
 		}
 
@@ -118,8 +117,7 @@ void initializeStartingUnits()
 
 void SetMultipleResearchedTechs(int playerNumb, std::vector<int> completedResearch)
 {
-	for (int techID : completedResearch)
-	{
+	for (int techID : completedResearch) {
 		Player[0].MarkResearchComplete(techID);
 	}
 }
@@ -440,7 +438,6 @@ Export void AIProc()
 		if(CheckVehiclesCured()) {
 			scriptGlobal.TrigUnitsCured.Enable();
 		}
-
 	}
 
 	VictoryConditions::CheckCombatUnitVictoryConditions();
