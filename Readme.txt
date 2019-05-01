@@ -14,13 +14,12 @@ scenario is compatible with Windows and WINE, although I only test scenarios on 
 
 *** Source Code
 
-Scenario 2: On the Run was built using C++ in Visual Studio 2015 using the Visual Studio 2015 Build Tools. 
+Scenario 2: On the Run is a C++ project designed around Visual Studio and the MSVC compiler.
 C++11 and the C++ Standard Library are both used. If you want to load the scenario into a different IDE, 
-a C++11 compliant IDE is required. Your IDE will also need support for the windows API and the Outpost 2 SDK ver 2.1.
+a C++11 compliant IDE is required. Your IDE will also need support for the windows API and the Outpost 2 SDK.
 
-Post Build Events: 3 post build events are remarked out (rem) to prevent them from copying 
-files on another person's computer without their knowledge. Remove the rem from the 3 lines to
-enable them.
+Post Build Event: If an environment variable named Outpost2Path is set, the mission dll will automatically 
+be copied to this directory to assist in debugging.
 
 If you need help troubleshooting the compiled scenario or the source code, use the OutpostUniverse forums.
 
@@ -41,3 +40,9 @@ If you need help troubleshooting the compiled scenario or the source code, use t
   * SirBomber - For making great tutorials that without I probably wouldn't have been able to learn the SDK.
   * Hooman - For providing technical help, especially for re-creating the Plymouth Starship II colony game. 
     This provided a lot of insight on using the SDK. Also, for solving the victory conditions/Saving bug.
+
+** Change Log
+
+  * Ver 1.0.1 - Fix bug when an initial vehicle is destroyed that prevents resolving the patch all vehicles victory condition.
+
+  * Ver 1.0.0 - Initial Release

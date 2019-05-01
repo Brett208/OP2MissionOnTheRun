@@ -3,8 +3,8 @@
 #include "Disasters.h"
 #include "ScriptGlobal.h"
 #include "VictoryConditions.h"
-#include <Outpost2DLL/Outpost2DLL.h>
 #include <OP2Helper/OP2Helper.h>
+#include <Outpost2DLL/Outpost2DLL.h>
 
 // Required data exports  (Description, Map, TechTree, GameType, NumPlayers)
 ExportLevelDetails("Campaign - Ply, Pursued, Ep 2 - On the Run", "OnTheRun.map", "PursuedTechTree.txt", MissionTypes::Colony, 2);
@@ -27,17 +27,21 @@ void initializeStartingUnits()
 {
 	std::vector<Unit> units;
 
-	//NOTE: These commented out vechs are for testing victory conditions.
+	//These commented out vehicles are for testing victory conditions.
 	//std::vector<map_id> turrets{ map_id::mapMicrowave, map_id::mapStickyfoam, map_id::mapRPG, map_id::mapEMP, map_id::mapESG };
 	//vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(), UnitDirection::South, 1, map_id::mapLynx, turrets);
 	//vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(), UnitDirection::South, 1, map_id::mapPanther, turrets);
 
-	//NOTE: Use to test sending units to the garage.
-	/*Unit building;
-	TethysGame::CreateUnit(building, map_id::mapCommandCenter, LOCATION(111 + X_, 64 + Y_), Player0, map_id::mapNone, 0);
-	TethysGame::CreateUnit(building, map_id::mapGarage, LOCATION(111 + X_, 67 + Y_), Player0, map_id::mapNone, 0);*/
+	//Use to test sending units to the garage.
+	//Unit building;
+	//TethysGame::CreateUnit(building, map_id::mapCommandCenter, LOCATION(113 + X_, 64 + Y_), Player0, map_id::mapNone, 0);
+	//TethysGame::CreateUnit(building, map_id::mapGarage, LOCATION(113 + X_, 67 + Y_), Player0, map_id::mapNone, 0);
+	//TethysGame::CreateUnit(building, map_id::mapAgridome, LOCATION(113 + X_, 70 + Y_), Player0, map_id::mapNone, 0);
+	//TethysGame::CreateUnit(building, map_id::mapVehicleFactory, LOCATION(113 + X_, 72 + Y_), Player0, map_id::mapNone, 0);
+	//TethysGame::CreateUnit(building, map_id::mapCommonOreSmelter, LOCATION(113 + X_, 76 + Y_), Player0, map_id::mapNone, 0);
+	//TethysGame::CreateUnit(building, map_id::mapTokamak, LOCATION(113 + X_, 75 + Y_), Player0, map_id::mapNone, 0);
 
-	//Note: Spiders cannot be loaded into a garage.
+	//Spiders cannot be loaded into a garage.
 	//vehicleBuilderAI.CreateLineOfVehicles(units, LOCATION(117 + X_, 63 + Y_), UnitDirection::South, 2,
 	//	std::vector<map_id> { map_id::mapSpider, map_id::mapSpider, map_id::mapScout });
 
@@ -202,8 +206,6 @@ void InitializeAttackTriggers()
 
 Export int InitProc()
 {
-	HFLInit();
-
 	ShowBriefing();
 
 	TethysGame::SetDaylightEverywhere(false); 
@@ -384,46 +386,42 @@ void VehicleCommandLinkCompromiseEffect()
 	}
 }
 
-bool CheckIfAllVehiclesCured()
+void MarkDestroyedStartingUnitsAsCured()
 {
-	if (scriptGlobal.TrigUnitsCured.IsEnabled())
-	{
-		return true;
-	}
-
 	for (int i = 0; i < scriptGlobal.StartingUnitCount; ++i)
 	{
-		if (!scriptGlobal.StartingUnits[i].IsLive())
-		{
+		if (!scriptGlobal.StartingUnits[i].IsLive()) {
 			scriptGlobal.StartingUnitCured[i] = true;
-			continue;
 		}
+	}
+}
 
-		if (scriptGlobal.StartingUnits[i].IsLive() &&
-			scriptGlobal.StartingUnitCured[i] == false)
-		{
+bool CheckVehiclesCured()
+{
+	for (int i = 0; i < scriptGlobal.StartingUnitCount; ++i)
+	{
+		if (!scriptGlobal.StartingUnitCured[i]) {
 			return false;
 		}
 	}
 
-	scriptGlobal.TrigUnitsCured.Enable();
 	return true;
 }
 
-void SetIfMoreVehiclesCured()
+void SetCuredVehicles()
 {
 	PlayerBuildingEnum playerBuildingEnum = PlayerBuildingEnum(PlayerNum::Player0, map_id::mapGarage);
 	UnitEx garage;
-	LOCATION dockLoc;
 
 	while (playerBuildingEnum.GetNext(garage))
 	{
-		dockLoc = garage.GetDockLocation();
+		LOCATION dockLoc = garage.GetDockLocation();
 
 		for (int i = 0; i < scriptGlobal.StartingUnitCount; ++i)
 		{
-			if (scriptGlobal.StartingUnits[i].IsLive() &&
-				scriptGlobal.StartingUnitCured[i] != true &&
+			// Checking for tech Vehicle Encryption Patch is not necessary as  
+			// it is required before vehicle factories or garages may be built.
+			if (!scriptGlobal.StartingUnitCured[i] &&
 				scriptGlobal.StartingUnits[i].Location().x == dockLoc.x &&
 				scriptGlobal.StartingUnits[i].Location().y == dockLoc.y)
 			{
@@ -435,15 +433,19 @@ void SetIfMoreVehiclesCured()
 }
 
 Export void AIProc() 
-{	
-	if (!CheckIfAllVehiclesCured())
-	{
-		SetIfMoreVehiclesCured();
+{
+	if (!scriptGlobal.TrigUnitsCured.IsEnabled()) {
+		MarkDestroyedStartingUnitsAsCured();
+		SetCuredVehicles();
+		if(CheckVehiclesCured()) {
+			scriptGlobal.TrigUnitsCured.Enable();
+		}
+
 	}
 
 	VictoryConditions::CheckCombatUnitVictoryConditions();
 
-	if (scriptGlobal.TrigScoutGroup.HasFired(Player0) && !scriptGlobal.TrigUnitsCured.HasFired(Player0))// !Player[0].HasTechnology(2707))
+	if (scriptGlobal.TrigScoutGroup.HasFired(Player0) && !scriptGlobal.TrigUnitsCured.HasFired(Player0))
 	//if (!Player[0].HasTechnology(2707)) //For testing CommandLinkCompromised
 	{
 		VehicleCommandLinkCompromiseEffect();
