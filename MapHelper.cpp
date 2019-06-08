@@ -1,4 +1,5 @@
 #include "MapHelper.h"
+#include <stdexcept>
 
 namespace MapHelper
 {
@@ -40,16 +41,15 @@ namespace MapHelper
 		TethysGame::CreateBeacon(map_id::mapFumarole, fumaroleLoc.x, fumaroleLoc.y, -1, -1, -1);
 	}
 
-	void CreateFumarolesFromRandomLocs(size_t numberOfFumaroles, std::vector<LOCATION> locations)
+	void CreateFumarolesFromRandomLocs(size_t fumaroleCount, std::vector<LOCATION> locations)
 	{
-		if (numberOfFumaroles > locations.size())
-		{
-			throw "Error";
+		if (fumaroleCount > locations.size()) {
+			throw std::runtime_error("Not enough available locations to fit requested fumarole count.");
 		}
 
 		int locationIndex;
 		LOCATION loc;
-		for (size_t i = 0; i < numberOfFumaroles; ++i)
+		for (size_t i = 0; i < fumaroleCount; ++i)
 		{
 			locationIndex = TethysGame::GetRand(locations.size());
 			loc = locations[locationIndex];
