@@ -43,6 +43,8 @@ If you need help troubleshooting the compiled scenario or the source code, use t
 
 ** Change Log
 
+  * Ver 1.0.2 - Improve compatibility with non-MSVC compilers.
+
   * Ver 1.0.1 - Fix bug when an initial vehicle is destroyed that prevents resolving the patch all vehicles victory condition.
 
   * Ver 1.0.0 - Initial Release
