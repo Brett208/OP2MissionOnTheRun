@@ -41,20 +41,18 @@ namespace MapHelper
 		TethysGame::CreateBeacon(map_id::mapFumarole, fumaroleLoc.x, fumaroleLoc.y, -1, -1, -1);
 	}
 
-	void CreateFumarolesFromRandomLocs(size_t fumaroleCount, std::vector<LOCATION> locations)
+	void CreateFumarolesFromRandomLocs(std::size_t fumaroleCount, std::vector<LOCATION> locations)
 	{
 		if (fumaroleCount > locations.size()) {
 			throw std::runtime_error("Not enough available locations to fit requested fumarole count.");
 		}
 
-		int locationIndex;
-		LOCATION loc;
-		for (size_t i = 0; i < fumaroleCount; ++i)
+		for (std::size_t i = 0; i < fumaroleCount; ++i)
 		{
-			locationIndex = TethysGame::GetRand(locations.size());
-			loc = locations[locationIndex];
+			const int locationIndex = TethysGame::GetRand(locations.size());
+			const auto location = locations[locationIndex];
 
-			TethysGame::CreateBeacon(map_id::mapFumarole, loc.x, loc.y, -1, -1, -1);
+			TethysGame::CreateBeacon(map_id::mapFumarole, location.x, location.y, -1, -1, -1);
 
 			//NOTE: Would be more efficient removing objects from the middle of a list than a vector.
 			locations.erase(locations.begin() + locationIndex);
